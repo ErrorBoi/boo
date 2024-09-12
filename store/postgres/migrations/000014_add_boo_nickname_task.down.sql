@@ -1,0 +1,1 @@
+DELETE FROM tasks WHERE description = 'add mascot to nickname';

@@ -1,0 +1,3 @@
+ALTER TABLE preset_timers
+ADD COLUMN status VARCHAR(255) NOT NULL DEFAULT 'active',
+ADD COLUMN img_url VARCHAR(255);

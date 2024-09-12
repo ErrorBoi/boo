@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS referrals(
+    tg_id BIGINT UNIQUE NOT NULL REFERENCES users(tg_id) ON DELETE CASCADE,
+    referrer_id BIGINT,
+    referrals INTEGER NOT NULL DEFAULT 0
+);

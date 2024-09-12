@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS files(
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    file_id TEXT NOT NULL
+);

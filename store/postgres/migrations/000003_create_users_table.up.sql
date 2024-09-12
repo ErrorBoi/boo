@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS users(
+    id UUID NOT NULL DEFAULT gen_random_uuid(),
+    tg_id BIGINT UNIQUE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    username VARCHAR(255),
+    timer_limit INTEGER NOT NULL DEFAULT 1,
+    timezone VARCHAR(255) NOT NULL DEFAULT 'UTC',
+    CONSTRAINT pkey PRIMARY KEY ( id )
+);

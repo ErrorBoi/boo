@@ -1,0 +1,1 @@
+TRUNCATE TABLE preset_timers;

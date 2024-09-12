@@ -1,0 +1,3 @@
+ALTER TABLE users
+ADD wallet TEXT DEFAULT NULL UNIQUE,
+ADD is_wallet_verified BOOL DEFAULT FALSE;

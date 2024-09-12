@@ -1,0 +1,92 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: ${PROJECT_NAME}_postgres
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGPORT: ${DB_PORT}
+    networks:
+      - prod
+    expose:
+      - ${DB_PORT_EXPOSED}
+    ports:
+      - "${DB_PORT_EXPOSED}:${DB_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: -p ${DB_PORT}
+  redis:
+    image: redis:latest
+    container_name: ${PROJECT_NAME}_redis
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    restart: always
+    networks:
+      - prod
+    command: redis-server --save 20 1 --loglevel notice --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT} --databases ${REDIS_DATABASES}
+    volumes:
+      - redis_data:/root/redis
+      - redis_data:/usr/local/etc/redis/redis.conf
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DATABASES: ${REDIS_DATABASES}
+  app:
+#    working_dir: /usr/src/app
+    build: .
+    container_name: dev_${PROJECT_NAME}_app
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    expose:
+      - ${APP_PORT_EXPOSED}
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      - postgres
+    networks:
+      - prod
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      BOT_TOKEN: ${BOT_TOKEN}
+      DEBUG_MODE: ${DEBUG_MODE}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DATABASES: ${REDIS_DATABASES}
+    volumes:
+      - ${APP_PATH}:/usr/src/app
+    labels:
+      - "traefik.docker.network=prod-proxy"
+      - "traefik.enable=true"
+      - "traefik.http.routers.dev-wallet-core.rule=Host($PROJECT_NAME)"
+      - "traefik.http.routers.dev-wallet-core.tls.certresolver=default"
+    command: go run cmd/bot/main.go
+
+volumes:
+  postgres_data:
+  redis_data:
+  api:
+
+networks:
+  prod:
+    driver: bridge

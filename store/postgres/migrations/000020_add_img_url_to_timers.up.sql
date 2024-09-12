@@ -1,0 +1,2 @@
+ALTER TABLE timers
+ADD COLUMN img_url VARCHAR(255);

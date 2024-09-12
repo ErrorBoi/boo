@@ -1,0 +1,2 @@
+ALTER TABLE timers
+ADD COLUMN notify_id BIGINT;
