@@ -9,7 +9,7 @@ It might be useful if you're looking for golang realisation of telegram bot with
 
 ## Install & run
 ```
-git clone github.com/errorboi/boo
+git clone https://github.com/ErrorBoi/boo.git
 cd boo
 cp .env.sample .env
 ```
