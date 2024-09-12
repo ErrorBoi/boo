@@ -1,6 +1,6 @@
 # Boo
 
-Boo is a telegram bot written in Go. It uses [telegram-bot-api](github.com/go-telegram-bot-api/telegram-bot-api) V5.
+Boo is a telegram bot written in Go. It uses [telegram-bot-api](https://github.com/go-telegram-bot-api/telegram-bot-api) V5.
 
 It might be useful if you're looking for golang realisation of telegram bot with following features:
 - [x] periodical notifications for users
