@@ -28,3 +28,4 @@ go.work
 
 /store/postgres/pendingMigrations/
 /cmd/playground/
+/cmd/scripts/
