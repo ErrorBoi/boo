@@ -495,10 +495,6 @@ func (b *Bot) executeCqNewTimer(cq *tgbotAPI.CallbackQuery, lcl locale.Locale) {
 		return
 	}
 
-	b.l.Infof("cq message: %#v\n", cq.Message)
-	b.l.Infof("cq chat: %#v\n", cq.Message.Chat)
-	b.l.Infof("cq from: %#v\n", cq.From)
-
 	cq.Message.From = cq.From
 
 	b.ExecuteStep(cq.Message, step, lcl)
