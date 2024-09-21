@@ -452,7 +452,7 @@ func (db *DB) GetReadyTimers() ([]*timer.Timer, error) {
 	err := db.client.Select(&timers, `SELECT * FROM timers
 	WHERE status = 'active'
 	AND next_trigger <= $1
-	;`, time.Now().UTC())
+	AND timer_type is not null;`, time.Now().UTC())
 	if err != nil {
 		return nil, err
 	}
