@@ -115,6 +115,9 @@ func (n *notifier) triggerTimers(ctx context.Context) {
 
 		switch *t.Type {
 		case timer.Daily:
+			if !t.TriggerTime.Valid || t.TriggerTime.String == "" {
+				continue
+			}
 			triggerTime, err := time.Parse("15:04", t.TriggerTime.String)
 			if err != nil {
 				n.l.Errorf("Parse trigger time error: %w", err)
@@ -122,6 +125,10 @@ func (n *notifier) triggerTimers(ctx context.Context) {
 			}
 			t.NextTrigger = time.Date(t.LastTrigger.Year(), t.LastTrigger.Month(), t.LastTrigger.Day(), triggerTime.Hour(), triggerTime.Minute(), triggerTime.Second(), 0, time.UTC).Add(24 * time.Hour)
 		case timer.Periodical:
+			if !t.PeriodSeconds.Valid || t.PeriodSeconds.Int64 == 0 {
+				continue
+			}
+
 			timerPeriod := time.Duration(t.PeriodSeconds.Int64) * time.Second
 			if bonusPeriod > timerPeriod {
 				bonusPeriod = timerPeriod
