@@ -549,8 +549,8 @@ Given value must be a valid URL. Examples:
 	PeriodTooSmallTextEN = `Period is too small. Please provide a period of at least 5 minute`
 	PeriodTooSmallTextRU = `Период слишком маленький. Пожалуйста, укажите период не менее 5 минут`
 
-	BonusIsNoLongerActiveTextEN = `Bonus is no longer active. Claim bonus in 2 hours and not later than next notification is sent`
-	BonusIsNoLongerActiveTextRU = `Бонус больше не активен. Забирайте бонусы в течение 2 часов и не позднее, чем придет следующее уведомление`
+	BonusIsNoLongerActiveTextEN = `Bonus is no longer active. Please claim the bonus within 2 hours. The next notification will be sent at: %s (UTC)`
+	BonusIsNoLongerActiveTextRU = `Бонус больше не активен. Пожалуйста, заберите бонус в течение 2 часов. Следующее уведомление будет отправлено в: %s (UTC)`
 
 	AlertBonusClaimedTextEN = `Bonus %d $eBOO received 🎁 
 

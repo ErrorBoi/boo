@@ -1595,7 +1595,18 @@ func (b *Bot) executeCqClaimBonus(cq *tgbotAPI.CallbackQuery, lcl locale.Locale)
 
 	if len(info) < 4 {
 		b.l.Infoln("info len < 4")
-		msg := tgbotAPI.NewEditMessageTextAndMarkup(cq.Message.Chat.ID, cq.Message.MessageID, text.BonusIsNoLongerActiveText[lcl], keyboard.NotifyInlineKeyboard(timer, lcl))
+		if timer.Type != nil && *timer.Type == timer_types.Periodical {
+			timer.LastTrigger = time.Now().UTC()
+			timer.NextTrigger = time.Now().UTC().Add(time.Duration(timer.PeriodSeconds.Int64) * time.Second)
+			err = b.store.UpdateTimer(timer)
+			if err != nil {
+				b.l.Errorf("UpdateTimer error: %w", err)
+				return
+			}
+	
+		}
+		nextNotificationTime := timer.NextTrigger.Format(time.DateTime)
+		msg := tgbotAPI.NewEditMessageTextAndMarkup(cq.Message.Chat.ID, cq.Message.MessageID, fmt.Sprintf(text.BonusIsNoLongerActiveText[lcl], nextNotificationTime), keyboard.NotifyInlineKeyboard(timer, lcl))
 		_, err = b.BotAPI.Send(msg)
 		if err != nil {
 			b.l.Errorf("Send message error: %w", err)
